@@ -1,0 +1,8 @@
+{
+    "require-dev": {
+        "datana-gmbh/php-cs-fixer-config": "^1.3.0"
+    },
+    "require": {
+        "php": ">=7.4"
+    }
+}

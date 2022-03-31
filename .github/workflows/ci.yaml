@@ -1,0 +1,89 @@
+on:
+    push:
+        branches:
+            - master
+    pull_request: ~
+
+name: CI
+
+jobs:
+    php-cs-fixer:
+        name: PHP-CS-Fixer
+
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                php-version:
+                    - 7.4
+
+                dependencies:
+                    - highest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Install PHP with extensions
+              uses: shivammathur/setup-php@2.18.0
+              with:
+                  coverage: none
+                  php-version: ${{ matrix.php-version }}
+
+            - name: Composer install
+              run: composer install --no-interaction --no-progress --working-dir=tools
+
+            - name: "Run friendsofphp/php-cs-fixer"
+              run: "tools/vendor/bin/php-cs-fixer fix --diff --diff-format=udiff --verbose"
+
+    composer-normalize:
+        name: composer-normalize
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: "Checkout code"
+              uses: actions/checkout@v3
+
+            - name: composer-normalize
+              uses: docker://ergebnis/composer-normalize-action:0.8.0
+
+    tests:
+        name: "PHP ${{ matrix.php-version }} + ${{ matrix.dependencies }}"
+
+        runs-on: ubuntu-latest
+
+        continue-on-error: ${{ matrix.allowed-to-fail }}
+
+        strategy:
+            matrix:
+                php-version:
+                    - '7.4'
+                    - '8.0'
+                dependencies:
+                    - 'lowest'
+                    - 'highest'
+                allowed-to-fail: [false]
+
+        steps:
+            - name: "Checkout code"
+              uses: actions/checkout@v3
+
+            - name: Install PHP with extensions
+              uses: shivammathur/setup-php@2.18.0
+              with:
+                  coverage: "none"
+                  php-version: "${{ matrix.php-version }}"
+                  tools: "composer:v2"
+
+            - name: Add PHPUnit matcher
+              run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+            - name: "Composer install"
+              uses: "ramsey/composer-install@v1"
+              with:
+                  dependency-versions: "${{ matrix.dependencies }}"
+                  composer-options: "--prefer-dist"
+
+            - name: Run tests
+              run: vendor/bin/phpunit -v
