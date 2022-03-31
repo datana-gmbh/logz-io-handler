@@ -15,7 +15,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - 7.4
+                    - 8.1
 
                 dependencies:
                     - highest
@@ -34,7 +34,7 @@ jobs:
               run: composer install --no-interaction --no-progress --working-dir=tools
 
             - name: "Run friendsofphp/php-cs-fixer"
-              run: "tools/vendor/bin/php-cs-fixer fix --diff --diff-format=udiff --verbose"
+              run: "tools/vendor/bin/php-cs-fixer fix --diff --verbose"
 
     composer-normalize:
         name: composer-normalize
@@ -58,8 +58,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - '7.4'
-                    - '8.0'
+                    - '8.1'
                 dependencies:
                     - 'lowest'
                     - 'highest'

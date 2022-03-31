@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of datana-gmbh/intercom-value-objects.
+ * This file is part of datana-gmbh/logz-io-handler.
  *
  * (c) Datana GmbH
  *
@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Datana\Intercom\Value\Tests\Common;
+namespace Datana\LogzIo\Handler\Tests\Logger\Processor;
 
-use Datana\Intercom\Value\Common;
+use Datana\LogzIo\Handler\Logger\Processor\AddApplicationNameProcessor;
 use Ergebnis\Test\Util\Helper;
 use PHPUnit\Framework\TestCase;
 
-final class HashTest extends TestCase
+final class AddApplicationNameProcessorTest extends TestCase
 {
     use Helper;
 
@@ -26,7 +26,7 @@ final class HashTest extends TestCase
      */
     public function isFinal(): void
     {
-        self::assertClassIsFinal(Common\Hash::class);
+        self::assertClassIsFinal(AddApplicationNameProcessor::class);
     }
 
     /**
@@ -39,21 +39,23 @@ final class HashTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        Common\Hash::fromString($value);
+        new AddApplicationNameProcessor($value);
     }
 
     /**
      * @test
      */
-    public function toStringReturnsValueFromFromString(): void
+    public function invoke(): void
     {
-        $value = self::faker()->sha256;
+        $applicationName = self::faker()->word();
 
-        $hash = Common\Hash::fromString($value);
+        $processor = new AddApplicationNameProcessor($applicationName);
 
         self::assertSame(
-            $value,
-            $hash->toString()
+            [
+                'application' => $applicationName,
+            ],
+            $processor->__invoke([]),
         );
     }
 }
