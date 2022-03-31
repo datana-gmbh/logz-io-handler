@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of datana-gmbh/intercom-value-objects.
+ * This file is part of datana-gmbh/logz-io-handler.
  *
  * (c) Datana GmbH
  *
@@ -55,7 +55,7 @@ final class AddApplicationNameProcessorTest extends TestCase
             [
                 'application' => $applicationName,
             ],
-            $processor->__invoke([])
+            $processor->__invoke([]),
         );
     }
 }

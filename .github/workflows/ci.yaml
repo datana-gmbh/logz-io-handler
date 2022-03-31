@@ -34,7 +34,7 @@ jobs:
               run: composer install --no-interaction --no-progress --working-dir=tools
 
             - name: "Run friendsofphp/php-cs-fixer"
-              run: "tools/vendor/bin/php-cs-fixer fix --diff --diff-format=udiff --verbose"
+              run: "tools/vendor/bin/php-cs-fixer fix --diff --verbose"
 
     composer-normalize:
         name: composer-normalize

@@ -4,7 +4,16 @@ declare(strict_types=1);
 
 use Ergebnis\PhpCsFixer;
 
-$config = PhpCsFixer\Config\Factory::fromRuleSet(new PhpCsFixer\Config\RuleSet\Php81(''), [
+$header = <<<'HEADER'
+ This file is part of datana-gmbh/logz-io-handler.
+
+ (c) Datana GmbH
+
+ For the full copyright and license information, please view the LICENSE
+ file that was distributed with this source code.
+ HEADER;
+
+$config = PhpCsFixer\Config\Factory::fromRuleSet(new PhpCsFixer\Config\RuleSet\Php81($header), [
     'blank_line_before_statement' => [
         'statements' => [
             'break',
@@ -54,7 +63,5 @@ $config->getFinder()
     ->in('src')
     ->in('tests');
 ;
-
-$config->setCacheFile(__DIR__ . '/.build/php-cs-fixer/.php_cs.cache');
 
 return $config;
