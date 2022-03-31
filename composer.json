@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": ">=8.1",
+        "inpsyde/logzio-monolog": "^1.0",
         "oskarstark/trimmed-non-empty-string": "^0.2.0",
         "webmozart/assert": "^1.9"
     },
