@@ -19,7 +19,9 @@ monolog:
             type: console
             process_psr_3_messages: false
             channels: ["!event", "!doctrine"]
-+        logz_io:
-+            action_level: debug
-+            handler: '@Inpsyde\LogzIoMonolog\Handler\LogzIoHandler'
++       logz_io:
++           type: service
++           action_level: debug
++           id: 'Inpsyde\LogzIoMonolog\Handler\LogzIoHandler'
++           channels: ["!event", "!console"]
 ```
