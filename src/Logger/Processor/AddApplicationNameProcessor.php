@@ -20,7 +20,7 @@ final class AddApplicationNameProcessor
     public function __construct(
         private readonly string $applicationName,
     ) {
-        TrimmedNonEmptyString::fromString($applicationName);
+        TrimmedNonEmptyString::fromString($applicationName, 'Property "$applicationName" must not be empty.');
     }
 
     public function __invoke(array $record)
