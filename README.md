@@ -19,9 +19,13 @@ monolog:
             type: console
             process_psr_3_messages: false
             channels: ["!event", "!doctrine"]
-+       logz_io:
++       logz.io:
++           type: fingers_crossed
++           action_level: error
++           handler: logz.io_handler
++           excluded_http_codes: [404, 405]
++           buffer_size: 50 # How many messages should be saved? Prevent memory leaks
++       logz.io_handler:
 +           type: service
-+           action_level: debug
 +           id: 'Inpsyde\LogzIoMonolog\Handler\LogzIoHandler'
-+           channels: ["!event", "!console"]
 ```
