@@ -15,6 +15,7 @@ namespace Datana\LogzIo\Handler\Tests\Logger\Processor;
 
 use Datana\LogzIo\Handler\Logger\Processor\AddApplicationNameProcessor;
 use Ergebnis\Test\Util\Helper;
+use Monolog\LogRecord;
 use PHPUnit\Framework\TestCase;
 
 final class AddApplicationNameProcessorTest extends TestCase
@@ -45,7 +46,7 @@ final class AddApplicationNameProcessorTest extends TestCase
     /**
      * @test
      */
-    public function invoke(): void
+    public function invokeWithArray(): void
     {
         $applicationName = self::faker()->word();
 
@@ -56,6 +57,30 @@ final class AddApplicationNameProcessorTest extends TestCase
                 'application' => $applicationName,
             ],
             $processor->__invoke([]),
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function invokeWithLogRecord(): void
+    {
+        $applicationName = self::faker()->word();
+
+        $processor = new AddApplicationNameProcessor($applicationName);
+
+        $logRecord = new LogRecord(
+            \DateTimeImmutable::createFromFormat('!U.u', sprintf('%.6F', microtime(true))),
+            self::faker()->word(),
+            \Monolog\Level::Debug,
+            self::faker()->sentence(),
+        );
+
+        self::assertSame(
+            [
+                'application' => $applicationName,
+            ],
+            $processor->__invoke($logRecord)['extra'],
         );
     }
 }
