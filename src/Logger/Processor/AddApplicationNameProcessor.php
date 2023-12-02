@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Datana\LogzIo\Handler\Logger\Processor;
 
+use Monolog\Attribute\AsMonologProcessor;
 use Monolog\LogRecord;
 use OskarStark\Value\TrimmedNonEmptyString;
 
+#[AsMonologProcessor]
 final class AddApplicationNameProcessor
 {
     public function __construct(
