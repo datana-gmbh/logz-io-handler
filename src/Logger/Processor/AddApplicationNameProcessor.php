@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Datana\LogzIo\Handler\Logger\Processor;
 
+use Monolog\LogRecord;
 use OskarStark\Value\TrimmedNonEmptyString;
 
 final class AddApplicationNameProcessor
@@ -23,8 +24,14 @@ final class AddApplicationNameProcessor
         TrimmedNonEmptyString::fromString($applicationName, 'Property "$applicationName" must not be empty.');
     }
 
-    public function __invoke(array $record)
+    public function __invoke(array|LogRecord $record)
     {
+        if ($record instanceof LogRecord) {
+            $record->extra['application'] = $this->applicationName;
+
+            return $record;
+        }
+
         $record['application'] = $this->applicationName;
 
         return $record;
