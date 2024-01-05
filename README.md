@@ -1,6 +1,6 @@
 # logz-io-handler
 
-Please define the following in your `config//prod/monolog.yaml` file:
+Please define the following in your `config/prod/monolog.yaml` file:
 
 ```diff
 monolog:
